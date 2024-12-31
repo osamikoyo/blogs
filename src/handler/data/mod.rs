@@ -1,10 +1,20 @@
 use rusqlite::{Connection, ToSql};
-use crate::handler::data::models::Post;
+use serde::{Serialize};
 
-mod models;
+pub struct Post{
+    pub title: String,
+    pub content: String,
+    pub hash_tags: String,
+    pub created_at: String,
+}
 
 pub struct Database{
     connection: Connection
+}
+
+pub fn database_new() -> Result<Database, rusqlite::Error>{
+    let conn = Connection::open("storage/main.db")?;
+    Ok(Database{connection : conn})
 }
 
 impl Database{
