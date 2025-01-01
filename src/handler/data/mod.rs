@@ -62,4 +62,13 @@ impl Database{
 
         posts
     }
+
+    pub fn post_update(&self, post: Post) -> Result<(), Err()> {
+        self.connection.execute(
+            "update posts set content = ?1, hash_tags = ?2 where title = ?3",
+            &[&post.content, &post.hash_tags, &post.title]
+        )?;
+
+        
+    }
 }

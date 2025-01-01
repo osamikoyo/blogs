@@ -37,3 +37,24 @@ async fn get_post(title : web::Path<String>) -> impl Responder{
 
     Ok(web::Json(posts))
 }
+
+#[get("/api/post/update/")]
+async fn update_post(data : web::Path<Post>) -> impl Responder{
+    let real_data = Post{
+        title: data.title.clone(),
+        content: data.content.clone(),
+        hash_tags: data.hash_tags.clone(),
+        created_at: "".to_string(),
+    };
+    let db = database_new()?;
+
+    db.post_update(real_data)?;
+
+    match db{
+        Ok(()) => "success!",
+        Err(e) => "Error = ".to_string().push_str(e)
+    }
+}
+
+
+
